@@ -15,9 +15,7 @@
 
 ## 🌐 Live Demo
 <br>
-[click here to play]( https://saravanan43860-max.github.io/Snake-game/)
-
-</a>
+[Click To Play]( https://saravanan43860-max.github.io/Snake-game/)
 <br><br>
 
 ## 🛠️ Technologies Used
