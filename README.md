@@ -2,7 +2,7 @@
 
 # 🎮 Snake Game
 
-<p>A classic, fun-to-play Snake game built using <strong>HTML5</strong>, <strong>CSS3</strong>, and <strong>Vanilla JavaScript</strong>.</p>
+<p>A classic, fun-to-play Snake game built using <strong>HTML5</strong> and <strong>Vanilla JavaScript</strong>.</p>
 
 ---
 
@@ -10,7 +10,7 @@
 <ul align="left">
   <li><b>Smooth Animations:</b> Responsive movement and fluid gameplay interactions.</li>
   <li><b>Clean UI:</b> Simple, modern, and mobile-friendly design.</li>
-  <li><b>Vanilla Code:</b> No external frameworks required—just pure web technologies!</li>
+  <li><b>Vanilla Code:</b> No external frameworks or CSS files required—just pure web technologies!</li>
 </ul>
 
 ## 🌐 Live Demo
@@ -24,8 +24,7 @@
 | Tech | Role |
 | :--- | :--- |
 | **HTML5** | Structure and markup |
-| **CSS3** | Styling, layout, and animations |
-| **JavaScript** | Game logic, scoring, and rendering |
+| **JavaScript** | Styling, layout, game logic, scoring, and rendering |
 
 ## 📝 How to Play
 1. Open the [Live Demo link](https://saravanan43860-max.github.io/ZenKart/).
