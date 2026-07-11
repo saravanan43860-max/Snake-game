@@ -15,8 +15,8 @@
 
 ## 🌐 Live Demo
 <br>
-<a href=" https://saravanan43860-max.github.io/Snake-game/">
-  <img src="https://img.shields.io/badge/Click_Here_to_Play-00FF00?style=for-the-badge&logo=appveyor" alt="Play Game">
+[click here to play]( https://saravanan43860-max.github.io/Snake-game/)
+
 </a>
 <br><br>
 
