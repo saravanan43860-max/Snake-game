@@ -32,8 +32,28 @@ window.addEventListener("mousemove", (e) => {
     velocity.y = Math.sin(angle) * speed;
 });
 
+window.addEventListener("touchmove", (e) => {
+    if (gameOver) return;
+    if (e.touches.length === 0) return;
+    let touch = e.touches[0];
+    let dx = touch.clientX - snake[0].x;
+    let dy = touch.clientY - snake[0].y;
+    let angle = Math.atan2(dy, dx);
+    let speed = 3;
+    velocity.x = Math.cos(angle) * speed;
+    velocity.y = Math.sin(angle) * speed;
+    e.preventDefault();
+}, { passive: false });
+
 window.addEventListener("mousedown", () => {
     if (gameOver) initGame();
+});
+
+window.addEventListener("touchstart", (e) => {
+    if (gameOver) {
+        initGame();
+        e.preventDefault();
+    }
 });
 
 function animate() {
