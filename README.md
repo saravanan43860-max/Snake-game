@@ -15,7 +15,7 @@
 
 ## 🌐 Live Demo
 <br>
-<a href="https://saravanan43860-max.github.io/ZenKart/">
+<a href=" https://saravanan43860-max.github.io/Snake-game/">
   <img src="https://img.shields.io/badge/Click_Here_to_Play-00FF00?style=for-the-badge&logo=appveyor" alt="Play Game">
 </a>
 <br><br>
@@ -27,7 +27,7 @@
 | **JavaScript** | Styling, layout, game logic, scoring, and rendering |
 
 ## 📝 How to Play
-1. Open the [Live Demo link](https://saravanan43860-max.github.io/ZenKart/).
+1. Open the [Live Demo link]( https://saravanan43860-max.github.io/Snake-game/).
 2. Use your **Arrow Keys** to move the snake.
 3. Eat the food to grow longer and increase your score.
 4. Avoid hitting the walls or your own tail!
