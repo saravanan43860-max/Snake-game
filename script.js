@@ -1,55 +1,86 @@
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
+document.body.style.margin = "0";
+document.body.style.overflow = "hidden";
 document.body.appendChild(canvas);
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 // --- CONFIGURATION ---
-let snake = [{ x: 100, y: 100 }]; // Array of body parts
-const segments = 10;              // Initial length
-let target = { x: Math.random() * canvas.width, y: Math.random() * canvas.height };
-let mouse = { x: 100, y: 100 };
-let score = 0;
+let snake, velocity, target, score, gameOver;
+const wallPadding = 10; // Space between wall and edge
+
+function initGame() {
+    snake = [{ x: 100, y: 100 }];
+    for (let i = 0; i < 20; i++) snake.push({ x: 100, y: 100 });
+    velocity = { x: 2, y: 0 };
+    target = { 
+        x: Math.random() * (canvas.width - 100) + 50, 
+        y: Math.random() * (canvas.height - 100) + 50 
+    };
+    score = 0;
+    gameOver = false;
+}
 
 window.addEventListener("mousemove", (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
+    if (gameOver) return;
+    let dx = e.clientX - snake[0].x;
+    let dy = e.clientY - snake[0].y;
+    let angle = Math.atan2(dy, dx);
+    let speed = 3;
+    velocity.x = Math.cos(angle) * speed;
+    velocity.y = Math.sin(angle) * speed;
+});
+
+window.addEventListener("mousedown", () => {
+    if (gameOver) initGame();
 });
 
 function animate() {
-    // 1. Move Head toward mouse
-    let head = snake[0];
-    head.x += (mouse.x - head.x) * 0.15;
-    head.y += (mouse.y - head.y) * 0.15;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // 2. Move body segments (each follows the one before it)
-    for (let i = 1; i < snake.length; i++) {
-        let prev = snake[i - 1];
-        let curr = snake[i];
-        let dx = prev.x - curr.x;
-        let dy = prev.y - curr.y;
-        let dist = Math.hypot(dx, dy);
-        
-        // Keep distance of 15px between segments
-        if (dist > 15) {
-            let angle = Math.atan2(dy, dx);
-            curr.x = prev.x - Math.cos(angle) * 15;
-            curr.y = prev.y - Math.sin(angle) * 15;
+    // 1. Draw Visible Wall
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 5;
+    ctx.strokeRect(wallPadding, wallPadding, canvas.width - wallPadding * 2, canvas.height - wallPadding * 2);
+
+    if (gameOver) {
+        ctx.fillStyle = "white";
+        ctx.font = "40px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+        ctx.font = "20px Arial";
+        ctx.fillText("Click to Restart", canvas.width / 2, canvas.height / 2 + 50);
+        requestAnimationFrame(animate);
+        return;
+    }
+
+    // Move Head
+    let head = snake[0];
+    head.x += velocity.x;
+    head.y += velocity.y;
+
+    // Wall Collision Check (using padded area)
+    if (head.x < wallPadding || head.x > canvas.width - wallPadding || 
+        head.y < wallPadding || head.y > canvas.height - wallPadding) {
+        gameOver = true;
+    }
+
+    // Move body
+    for (let i = snake.length - 1; i > 0; i--) {
+        snake[i].x = snake[i - 1].x;
+        snake[i].y = snake[i - 1].y;
+    }
+
+    // Collision with Target
+    if (Math.hypot(head.x - target.x, head.y - target.y) < 25) {
+        score++;
+        target.x = Math.random() * (canvas.width - 100) + 50;
+        target.y = Math.random() * (canvas.height - 100) + 50;
+        for (let i = 0; i < 5; i++) {
+            snake.push({ ...snake[snake.length - 1] });
         }
     }
-
-    // 3. Collision Logic
-    if (Math.hypot(head.x - target.x, head.y - target.y) < 30) {
-        score++;
-        target.x = Math.random() * (canvas.width - 50) + 25;
-        target.y = Math.random() * (canvas.height - 50) + 25;
-        // Grow: Add a new segment at the tail's position
-        let tail = snake[snake.length - 1];
-        snake.push({ x: tail.x, y: tail.y });
-    }
-
-    // --- DRAWING ---
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw Target
     ctx.fillStyle = "#ff0055";
@@ -61,7 +92,6 @@ function animate() {
     ctx.strokeStyle = "#44ff44";
     ctx.lineWidth = 15;
     ctx.lineCap = "round";
-    ctx.lineJoin = "round";
     ctx.beginPath();
     ctx.moveTo(snake[0].x, snake[0].y);
     for (let i = 1; i < snake.length; i++) {
@@ -72,12 +102,11 @@ function animate() {
     // Draw Score
     ctx.fillStyle = "white";
     ctx.font = "20px Arial";
-    ctx.fillText("Score: " + score, 20, 30);
+    ctx.textAlign = "left";
+    ctx.fillText("Score: " + score, 30, 40);
 
     requestAnimationFrame(animate);
 }
 
-// Initialize snake body
-for (let i = 0; i < segments; i++) snake.push({ x: 100, y: 100 });
-
+initGame();
 animate();
